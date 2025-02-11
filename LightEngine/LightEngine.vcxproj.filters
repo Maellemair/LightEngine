@@ -40,10 +40,16 @@
     <ClCompile Include="PVZScene.cpp">
       <Filter>PVZ</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>PVZ</Filter>
+    </ClCompile>
     <ClCompile Include="Zombie.cpp">
       <Filter>PVZ</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="Gun.cpp">
+      <Filter>PVZ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Downloads\IA_TP1-master\IA_TP1-master\IA_Shotgun\Actions.cpp">
       <Filter>PVZ</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,10 +81,16 @@
     <ClInclude Include="PVZScene.h">
       <Filter>PVZ</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>PVZ</Filter>
+    </ClInclude>
     <ClInclude Include="Zombie.h">
       <Filter>PVZ</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="Gun.h">
+      <Filter>PVZ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\IA_TP1-master\IA_TP1-master\IA_Shotgun\Actions.h">
       <Filter>PVZ</Filter>
     </ClInclude>
   </ItemGroup>

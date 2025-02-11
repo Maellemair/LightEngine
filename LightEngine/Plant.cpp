@@ -4,6 +4,7 @@
 
 void Plant::Start(float posY)
 {
+	Gatling = new Gun(10);
 	SetPosition(70, posY);
 	SetRigidBody(true); 
 	SetTag((int)PVZScene::Tag::Plant);
@@ -11,6 +12,9 @@ void Plant::Start(float posY)
 
 void Plant::AddBullet(Scene* pScene)
 {
-	Bullet* bullet = pScene->CreateEntity<Bullet>(10, sf::Color::White);
-	bullet->Start(this);
+	if(Gatling->Shoot())
+	{
+		Bullet* bullet = pScene->CreateEntity<Bullet>(10, sf::Color::White);
+		bullet->Start(this);
+	}
 }

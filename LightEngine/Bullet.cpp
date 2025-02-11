@@ -10,6 +10,14 @@ void Bullet::Start(Entity* pEntity)
 	SetDirection(1, 0, 50);
 }
 
+void Bullet::OnUpdate()
+{
+	if (GetPosition().x - 10 >= GameManager::Get()->GetWindowWidth())
+	{
+		this->Destroy();
+	}
+}
+
 void Bullet::OnCollision(Entity* other)
 {
 	if(other->IsTag((int)PVZScene::Tag::Zombie))

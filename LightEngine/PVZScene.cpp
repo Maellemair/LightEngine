@@ -47,6 +47,10 @@ void PVZScene::OnEvent(const sf::Event& event)
 			{
 				mEntitySelected->AddBullet(this);
 			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			{
+				mEntitySelected->Reload();
+			}
 		}
 	}	
 }
@@ -66,6 +70,7 @@ void PVZScene::OnUpdate()
 		sf::Vector2f position = mEntitySelected->GetPosition();
 		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
 	}
+
 	Debug::DrawLine(0, 240, 1280, 240, sf::Color(255, 255, 255, 120));
 	Debug::DrawLine(0, 480, 1280, 480, sf::Color(255, 255, 255, 120));
 }
