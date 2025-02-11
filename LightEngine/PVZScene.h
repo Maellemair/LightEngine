@@ -9,16 +9,23 @@ class Bullet;
 class PVZScene : public Scene
 {
 	Plant* mEntity1;
-	Zombie* mEntity2;
+	Plant* mEntity2;
+	Plant* mEntity3;
 
-	std::vector<Bullet*> mBullets;
+	std::vector<Zombie*> mZombies;
 
-	Entity* mEntitySelected;
+	Plant* mEntitySelected;
 
 private:
-	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
+	void TrySetSelectedEntity(Plant* pEntity, int x, int y);
 
 public:
+	enum class Tag
+	{
+		Plant,
+		Zombie,
+		Bullet
+	};
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;

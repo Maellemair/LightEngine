@@ -55,6 +55,8 @@ public:
 	template<typename T>
 	void LaunchScene();
 
+	int GetWindowHeight() const { return mWindowHeight; }
+	int GetWindowWidth() const { return mWindowWidth; }
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }
 	sf::Font& GetFont() { return mFont; };
