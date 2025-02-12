@@ -11,13 +11,13 @@
 void PVZScene::OnInitialize()
 {
 	mEntity1 = CreateEntity<Plant>(50, sf::Color::Green);
-	mEntity1->Start(120);
+	mEntity1->Start(120, 10, 0.2f, 2.f);
 
 	mEntity2 = CreateEntity<Plant>(50, sf::Color::Green);
-	mEntity2->Start(360);
+	mEntity2->Start(360, 10, 0.2f, 2.f);
 
 	mEntity3 = CreateEntity<Plant>(50, sf::Color::Green);
-	mEntity3->Start(600);
+	mEntity3->Start(600, 10, 0.2f, 2.f);
 
 	mEntitySelected = nullptr;
 }

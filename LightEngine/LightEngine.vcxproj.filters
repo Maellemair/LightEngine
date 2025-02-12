@@ -49,7 +49,7 @@
     <ClCompile Include="Gun.cpp">
       <Filter>PVZ</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Downloads\IA_TP1-master\IA_TP1-master\IA_Shotgun\Actions.cpp">
+    <ClCompile Include="Actions.cpp">
       <Filter>PVZ</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,7 +90,7 @@
     <ClInclude Include="Gun.h">
       <Filter>PVZ</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Downloads\IA_TP1-master\IA_TP1-master\IA_Shotgun\Actions.h">
+    <ClInclude Include="Actions.h">
       <Filter>PVZ</Filter>
     </ClInclude>
   </ItemGroup>

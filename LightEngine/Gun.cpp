@@ -1,7 +1,7 @@
 #include "Gun.h"
 #include "Actions.h"
 
-Gun::Gun(int capacity, float reloadTime, float shootTime)
+Plant::Plant(int capacity, float reloadTime, float shootTime)
 {
     mAmmo = capacity;
     mCapacity = capacity;
@@ -15,25 +15,12 @@ Gun::Gun(int capacity, float reloadTime, float shootTime)
 	TransitionTo(State::Full);
 }
 
-void Gun::Update(float deltaTime)
+void Plant::Update(float deltaTime)
 {
 	mActions[(int)mState]->Update(this, deltaTime);
 }
 
-bool Gun::TransitionTo(State newState)
-{
-    if (mTransitions[(int)mState][(int)newState])
-    {
-		mActions[(int)newState]->Start(this);
-        mState = newState;
-
-        return true;
-    }
-
-    return false;
-}
-
-bool Gun::Shoot()
+bool Plant::Shoot()
 {
     if (TransitionTo(State::Shooting) == false)
         return false;
@@ -43,7 +30,7 @@ bool Gun::Shoot()
     return true;
 }
 
-bool Gun::Reload()
+bool Plant::Reload()
 {
     if (TransitionTo(State::Reloading) == false)
         return false;
