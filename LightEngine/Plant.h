@@ -1,15 +1,12 @@
 #pragma once
 
 #include "Entity.h"
-#include "Gun.h"
-#include "Actions.h"
 
 class Bullet;
+class Action;
 
 class Plant : public Entity
 {
-
-	Plant* Gatling;
 public:
 
 	enum State
@@ -34,9 +31,9 @@ private:
 	int mTransitions[STATE_COUNT][STATE_COUNT] =
 	{
 		// Idle, Shooting, Full, Loaded, Empty, Reloading
-		{   0,       1,      0,     0,     0,       0 }, // Idle
+		{   0,       1,      1,     0,     0,       0 }, // Idle
 		{   1,       0,      0,     1,     1,       0 }, // Shooting
-		{   0,       1,      0,     1,     0,       0 }, // Full
+		{   0,       1,      0,     0,     0,       0 }, // Full
 		{   0,       1,      0,     0,     0,       1 }, // Loaded
 		{   0,       0,      0,     0,     0,       1 }, // Empty
 		{   1,       0,      1,     0,     0,       0 }  // Reloading
@@ -45,11 +42,15 @@ private:
 	Action* mActions[STATE_COUNT];
 
 public:
+	
 	void Start(float posY, int capacity, float shootTime, float reloadTime);
-	void OnUpdate() override;
+	void Update(Entity* pZombie);
 	bool TransitionTo(State newState);
+	bool Shoot();
+	bool Reload();
 	void AddBullet(Scene* pScene);
-	void Reload() { Gatling->Reload(); }
+
+	sf::Vector2i GetCharger();
 
 	friend class ActionIdle;
 	friend class ActionFull;

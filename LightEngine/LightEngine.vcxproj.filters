@@ -46,9 +46,6 @@
     <ClCompile Include="Zombie.cpp">
       <Filter>PVZ</Filter>
     </ClCompile>
-    <ClCompile Include="Gun.cpp">
-      <Filter>PVZ</Filter>
-    </ClCompile>
     <ClCompile Include="Actions.cpp">
       <Filter>PVZ</Filter>
     </ClCompile>
@@ -85,9 +82,6 @@
       <Filter>PVZ</Filter>
     </ClInclude>
     <ClInclude Include="Zombie.h">
-      <Filter>PVZ</Filter>
-    </ClInclude>
-    <ClInclude Include="Gun.h">
       <Filter>PVZ</Filter>
     </ClInclude>
     <ClInclude Include="Actions.h">

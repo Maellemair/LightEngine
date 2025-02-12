@@ -1,32 +1,30 @@
 #pragma once
 
-#include "Plant.h"
 #include <iostream>
+#include "Plant.h"
 
 inline void Print(const std::string& message)
 {
-	system("cls");
+	//system("cls");
 	std::cout << message << std::endl;
 }
-
-class Plant;
 
 class Action
 {
 public:
-	virtual void Start(Plant* pGun) = 0;
-	virtual void Update(Plant* pGun, float dt) = 0;
+	virtual void Start(Plant* pPlant) = 0;
+	virtual void Update(Plant* pPlant, float dt) = 0;
 };
 
 class ActionIdle : public Action
 {
 public:
-	void Start(Plant* pGun) override
+	void Start(Plant* pPlant) override
 	{
 		Print("No zombies in sight !");
 	}
 
-	void Update(Plant* pGun, float dt) override
+	void Update(Plant* pPlant, float dt) override
 	{
 	}
 };
@@ -34,12 +32,12 @@ public:
 class ActionFull : public Action
 {
 public:
-	void Start(Plant* pGun) override
+	void Start(Plant* pPlant) override
 	{
-		Print("Ready to shoot, Ammo: " + std::to_string(pGun->mAmmo));
+		Print("Ready to shoot, Ammo: " + std::to_string(pPlant->mAmmo));
 	}
 
-	void Update(Plant* pGun, float dt) override
+	void Update(Plant* pPlant, float dt) override
 	{
 	}
 };
@@ -47,12 +45,12 @@ public:
 class ActionLoaded : public Action
 {
 public:
-	void Start(Plant* pGun) override
+	void Start(Plant* pPlant) override
 	{
-		Print("Ready to shoot, Ammo: " + std::to_string(pGun->mAmmo));
+		Print("Ready to shoot, Ammo: " + std::to_string(pPlant->mAmmo));
 	}
 
-	void Update(Plant* pGun, float dt) override
+	void Update(Plant* pPlant, float dt) override
 	{
 	}
 };
@@ -68,25 +66,25 @@ public:
 		mShootTime = shootTime;
 	}
 
-	void Start(Plant* pGun) override
+	void Start(Plant* pPlant) override
 	{
 		Print("Bang!");
 	}
 
-	void Update(Plant* pGun, float dt) override
+	void Update(Plant* pPlant, float dt) override
 	{
 		mShootProgress += dt;
 		if (mShootProgress < mShootTime)
 			return;
 
 		mShootProgress = 0.0f;
-		if (pGun->mAmmo > 0)
+		if (pPlant->mAmmo > 0)
 		{
-			pGun->TransitionTo(Plant::State::Loaded);
+			pPlant->TransitionTo(Plant::State::Loaded);
 		}
 		else
 		{
-			pGun->TransitionTo(Plant::State::Empty);
+			pPlant->TransitionTo(Plant::State::Empty);
 		}
 	}
 };
@@ -102,33 +100,33 @@ public:
 		mReloadTime = reloadTime;
 	}
 
-	void Start(Plant* pGun) override
+	void Start(Plant* pPlant) override
 	{
 		Print("Reloading...");
 	}
 
-	void Update(Plant* pGun, float dt) override
+	void Update(Plant* pPlant, float dt) override
 	{
 		mReloadProgress += dt;
 		if (mReloadProgress < mReloadTime)
 			return;
 
-		pGun->mAmmo = pGun->mCapacity;
+		pPlant->mAmmo = pPlant->mCapacity;
 		mReloadProgress = 0.0f;
 
-		pGun->TransitionTo(Plant::State::Full);
+		pPlant->TransitionTo(Plant::State::Full);
 	}
 };
 
 class ActionEmpty : public Action
 {
 public:
-	void Start(Plant* pGun) override
+	void Start(Plant* pPlant) override
 	{
 		Print("Empty!");
 	}
 
-	void Update(Plant* pGun, float dt) override
+	void Update(Plant* pPlant, float dt) override
 	{
 	}
 };

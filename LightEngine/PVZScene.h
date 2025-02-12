@@ -8,12 +8,8 @@ class Bullet;
 
 class PVZScene : public Scene
 {
-	Plant* mEntity1;
-	Plant* mEntity2;
-	Plant* mEntity3;
-
 	std::vector<Zombie*> mZombies;
-
+	std::vector<Plant*> mPlants;
 	Plant* mEntitySelected;
 
 private:
