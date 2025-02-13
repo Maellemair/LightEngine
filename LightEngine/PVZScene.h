@@ -24,10 +24,26 @@ public:
 	};
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
+	bool CheckIfZombieOnLane(Plant* pPlant);
+	Zombie* CheckZombieClose(Plant* pEntity);
 	void OnUpdate() override;
+
+	template <typename T>
+	void Clear(std::vector<T>& vector);
 };
 
+template<typename T>
+void PVZScene::Clear(std::vector<T>& vector)
+{
+	for (auto it = vector.begin(); it != vector.end(); )
+	{
+		T entity = *it;
 
-
-
-
+		if (entity->ToDestroy() == false)
+		{
+			++it;
+			continue;
+		}
+		it = vector.erase(it);
+	}
+}

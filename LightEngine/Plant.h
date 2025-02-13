@@ -4,6 +4,7 @@
 
 class Bullet;
 class Action;
+class Zombie;
 
 class Plant : public Entity
 {
@@ -33,8 +34,8 @@ private:
 		// Idle, Shooting, Full, Loaded, Empty, Reloading
 		{   0,       1,      1,     0,     0,       0 }, // Idle
 		{   1,       0,      0,     1,     1,       0 }, // Shooting
-		{   0,       1,      0,     0,     0,       0 }, // Full
-		{   0,       1,      0,     0,     0,       1 }, // Loaded
+		{   1,       1,      0,     0,     0,       0 }, // Full
+		{   1,       1,      0,     0,     0,       1 }, // Loaded
 		{   0,       0,      0,     0,     0,       1 }, // Empty
 		{   1,       0,      1,     0,     0,       0 }  // Reloading
 	};
@@ -44,11 +45,13 @@ private:
 public:
 	
 	void Start(float posY, int capacity, float shootTime, float reloadTime);
-	void Update(Entity* pZombie);
+	void OnUpdate();
 	bool TransitionTo(State newState);
+	void UpdateAction(float dt);
 	bool Shoot();
 	bool Reload();
-	void AddBullet(Scene* pScene);
+	Bullet* AddBullet(Scene* pScene, Entity* zombieClose);
+	void OnCollision(Entity* other) override;
 
 	sf::Vector2i GetCharger();
 

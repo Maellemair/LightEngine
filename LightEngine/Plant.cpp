@@ -1,5 +1,6 @@
 #include "Plant.h"
 #include "Bullet.h"
+#include "Zombie.h"
 #include "PVZScene.h"
 #include "Actions.h"
 #include "Debug.h"
@@ -23,26 +24,29 @@ void Plant::Start(float posY, int capacity, float shootTime, float reloadTime)
 	TransitionTo(State::Idle);
 }
 
-void Plant::Update(Entity* pZombie)
+void Plant::OnUpdate()
 {
-	if(pZombie != nullptr)
+	PVZScene* scene = GetScene<PVZScene>();
+	if (scene->CheckIfZombieOnLane(this) == 0)
 	{
-		float x = pZombie->GetPosition().x - GetPosition().x;
-
-		if (x <= 400)
+		if (Reload() && mAmmo <= mCapacity / 2)
 		{
-			AddBullet(GetScene());
+			std::cout << "Reload" << std::endl;
 		}
 		else
 		{
-			Reload();
+			Zombie* zombieClose = scene->CheckZombieClose(this);
+			if(zombieClose != nullptr)
+			{
+				Bullet* bullet = AddBullet(scene, zombieClose);
+			}
+			
 		}
 	}
-	if(mAmmo <= 2)
+	else
 	{
-		Reload();
+		AddBullet(scene, nullptr);
 	}
-	mActions[(int)mState]->Update(this, GetDeltaTime());
 }
 
 bool Plant::TransitionTo(State newState)
@@ -58,11 +62,16 @@ bool Plant::TransitionTo(State newState)
 	return false;
 }
 
+void Plant::UpdateAction(float dt)
+{
+	mActions[(int)mState]->Update(this, dt);
+}
+
 bool Plant::Shoot()
 {
-	if (TransitionTo(State::Shooting) == false)
+	if (TransitionTo(State::Shooting) == false || mAmmo <= 0)
 		return false;
-
+	
 	mAmmo--;
 
 	return true;
@@ -72,14 +81,27 @@ bool Plant::Reload()
 {
 	if (TransitionTo(State::Reloading) == false)
 		return false;
+
+	return true;
 }
 
-void Plant::AddBullet(Scene* pScene)
+Bullet* Plant::AddBullet(Scene* pScene, Entity* zombieClose)
 {
 	if(Shoot())
 	{
 		Bullet* bullet = pScene->CreateEntity<Bullet>(10, sf::Color::White);
-		bullet->Start(this);
+		bullet->Start(this, zombieClose);
+		return bullet;
+	}
+	return nullptr;
+}
+
+void Plant::OnCollision(Entity* other)
+{
+	if (other->IsTag((int)PVZScene::Tag::Zombie))
+	{
+		this->Destroy();
+		std::cout << "Dead Plant !" << std::endl;
 	}
 }
 

@@ -5,19 +5,20 @@
 #include "Bullet.h"
 
 #include "Debug.h"
+#include "Utils.h"
 
 #include <iostream>
 
 void PVZScene::OnInitialize()
 {
 	Plant* mEntity1 = CreateEntity<Plant>(50, sf::Color::Green);
-	mEntity1->Start(120, 10, 10.f, 20.f);
+	mEntity1->Start(120, 10, 1.f, 3.5f);
 
 	Plant* mEntity2 = CreateEntity<Plant>(50, sf::Color::Green);
-	mEntity2->Start(360, 10, 10.f, 20.f);
+	mEntity2->Start(360, 10, 1.f, 3.5f);
 
 	Plant* mEntity3 = CreateEntity<Plant>(50, sf::Color::Green);
-	mEntity3->Start(600, 10, 10.f, 20.f);
+	mEntity3->Start(600, 10, 1.f, 3.5f);
 
 	mPlants.push_back(mEntity1);
 	mPlants.push_back(mEntity2);
@@ -39,6 +40,63 @@ void PVZScene::OnEvent(const sf::Event& event)
 	}	
 }
 
+bool PVZScene::CheckIfZombieOnLane(Plant* pPlant)
+{
+	int NbrZombieOnLane = 0;
+	for (Zombie* pEntity : mZombies)
+	{
+		if (pEntity->GetPosition().y == pPlant->GetPosition().y &&
+			pEntity->GetPosition().x <= GetWindowWidth() / 2)
+		{
+			NbrZombieOnLane++;
+		}
+	}
+	if (NbrZombieOnLane != 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+Zombie* PVZScene::CheckZombieClose(Plant* pEntity)
+{
+	if (mZombies.size() == 0)
+	{
+		return nullptr;
+	}
+
+	Zombie* MostCloseZombie = nullptr;
+	float ShortDistance = NULL;
+
+	if(mZombies[0]->GetPosition().x <= GetWindowWidth() / 2)
+	{
+		MostCloseZombie = mZombies[0];
+		ShortDistance = Utils::GetDistance(pEntity->GetPosition().x,
+			pEntity->GetPosition().y,
+			MostCloseZombie->GetPosition().x,
+			MostCloseZombie->GetPosition().y);
+	}
+
+	for (Zombie* zombie : mZombies)
+	{
+		if(zombie->GetPosition().x <= GetWindowWidth() / 2)
+		{
+			float distance = Utils::GetDistance(pEntity->GetPosition().x,
+				pEntity->GetPosition().y,
+				zombie->GetPosition().x,
+				zombie->GetPosition().y);
+
+			if (distance < ShortDistance)
+			{
+				ShortDistance = distance;
+				MostCloseZombie = zombie;
+			}
+		}
+	}
+
+	return MostCloseZombie;
+}
+
 void PVZScene::TrySetSelectedEntity(Plant* pEntity, int x, int y)
 {
 	if (pEntity->IsInside(x, y) == false)
@@ -49,23 +107,19 @@ void PVZScene::TrySetSelectedEntity(Plant* pEntity, int x, int y)
 
 void PVZScene::OnUpdate()
 {
-	for (int i = 0; i < mZombies.size(); i++)
-	{
-		for (int j = 0; j < mPlants.size(); j++)
-		{
-			if (mZombies[i]->GetPosition().y == mPlants[j]->GetPosition().y)
-			{
-				mPlants[j]->Update(mZombies[i]);
-			}
-			mPlants[j]->Update(nullptr);
-		}
-	}
-
 	if (mEntitySelected != nullptr)
 	{
 		sf::Vector2f position = mEntitySelected->GetPosition();
 		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
 	}
+
+	for (int i = 0; i < mPlants.size(); i++)
+	{
+		mPlants[i]->UpdateAction(GetDeltaTime());
+	}
+
+	Clear<Zombie*>(mZombies);
+	Clear<Plant*>(mPlants);
 
 	Debug::DrawLine(0, 240, 1280, 240, sf::Color(255, 255, 255, 120));
 	Debug::DrawLine(0, 480, 1280, 480, sf::Color(255, 255, 255, 120));

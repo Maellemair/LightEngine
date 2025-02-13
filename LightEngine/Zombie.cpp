@@ -17,7 +17,15 @@ void Zombie::Start(float posY)
 	{
 		SetPosition(1330, 600);
 	}
-	SetRigidBody(true);
-	SetDirection(-1, 0, 100);
+	SetRigidBody(false);
+	SetDirection(-1, 0, 200);
 	SetTag((int)PVZScene::Tag::Zombie);
+}
+
+void Zombie::OnUpdate()
+{
+	if (GetPosition().x + 50 <= 0)
+	{
+		this->Destroy();
+	}
 }

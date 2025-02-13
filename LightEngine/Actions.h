@@ -6,7 +6,7 @@
 inline void Print(const std::string& message)
 {
 	//system("cls");
-	std::cout << message << std::endl;
+	//std::cout << message << std::endl;
 }
 
 class Action
@@ -39,6 +39,7 @@ public:
 
 	void Update(Plant* pPlant, float dt) override
 	{
+		pPlant->TransitionTo(Plant::State::Idle);
 	}
 };
 
@@ -52,6 +53,7 @@ public:
 
 	void Update(Plant* pPlant, float dt) override
 	{
+		//pPlant->TransitionTo(Plant::State::Idle);
 	}
 };
 
@@ -74,6 +76,7 @@ public:
 	void Update(Plant* pPlant, float dt) override
 	{
 		mShootProgress += dt;
+
 		if (mShootProgress < mShootTime)
 			return;
 
@@ -128,5 +131,6 @@ public:
 
 	void Update(Plant* pPlant, float dt) override
 	{
+		pPlant->TransitionTo(Plant::State::Reloading);
 	}
 };
